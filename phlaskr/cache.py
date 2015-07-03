@@ -27,6 +27,7 @@ def convert_uri_to_args(uri):
 cache = Redis(
     **convert_uri_to_args(
         os.environ.get('REDISCLOUD_URL')
+    )
 )
 
 def cache_response(res):
