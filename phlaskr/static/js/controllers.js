@@ -179,9 +179,12 @@ function RegisterCtrl(register,redirect,msgModal) {
     
 
 
-NavCtrl.$inject = ['$scope','$element','$attrs','navLinkService','isAuthenticated']
+NavCtrl.$inject = ['$scope','$element','$attrs','navLinkService','isAuthenticated','$cookies']
 
 function NavCtrl($scope,$element,$attrs,navLinkService,isAuthenticated) {
+    if($cookies.get('SITE_LOGO')){
+        $scope.siteLogo = $cookies.get('SITE_LOGO');
+    }
     navLinkService.loadLinks();
     $scope.links = navLinkService.getLinks();
     $scope.checkAuth = isAuthenticated;

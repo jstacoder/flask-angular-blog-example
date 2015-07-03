@@ -35,9 +35,9 @@ function listGroupItemLinkfn(scope,ele,attrs,ctrl) {
 }
 
 
-navBar.$inject = ['navLinkService'];
+navBar.$inject = ['navLinkService','$location','$cookies'];
 
-function navBar(navLinkService,$location) {
+function navBar(navLinkService,$location,$cookies) {
     return {
         restrict:"E",
         link:navBarLinkFn,

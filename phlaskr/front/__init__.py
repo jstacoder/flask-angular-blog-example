@@ -39,6 +39,7 @@ class IndexView(views.MethodView):
                     )
                 )
         rtn.direct_passthrough = False
+        rtn.set_cookie('SITE_LOGO',os.environ.get('BLOG_NAME'))
         #rtn.data = minify(unicode(rtn.data))
         return rtn
         
