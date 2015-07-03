@@ -122,7 +122,7 @@ function LoginCtrl(login,$cookies,sendLogin,redirect,loginError,$modal,msgModal)
                 //console.log('success');//,res.data);
                 },function(err){
                     console.log('error',err);
-                    //loginError();
+                    loginError();
                 }
             ).then(function(res){
                 resetForm();
