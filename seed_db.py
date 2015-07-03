@@ -61,7 +61,7 @@ def seed():
             '''
         }
 
-        kyle = AppUser.get_new(username='admin',password='test')
+        kyle = AppUser.get_new(username='test',password='test')
         email = Email(address='test@test.com',app_user_id=kyle.id,user_type='app')
         email.save()
         tag = Tag.get_new(name='tag')
@@ -69,8 +69,8 @@ def seed():
         post = Post.get_new(title='test post2',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
         post = Post.get_new(title='test post3',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
         post = Post.get_new(title='test post4',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
-        joel = AppUser.get_new(username='jstacoder',password='test')
-        email = Email(address='jstacoder@test.com',app_user_id=joel.id,user_type='app')
+        joel = AppUser.get_new(username='admin',password=os.environ.get('ADMIN_PASSWORD'))
+        email = Email(address=os.environ.get('ADMIN_EMAIL'),app_user_id=joel.id,user_type='app')
         email.save()
         tag = Tag.get_new(name='tags')
         post = Post.get_new(title='First test post',content=content['1'],author_id=joel.id,tags=[tag.id])
