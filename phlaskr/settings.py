@@ -4,7 +4,7 @@ from local_settings import LocalConfig
 class BaseConfig(LocalConfig):
 
     DATABASE_URI = os.environ.get('DATABASE_URL')
-    SECRET_KEY = 'testing'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     COOKIE_TTL = 100060
     DEBUG = True
 
