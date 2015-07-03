@@ -130,7 +130,7 @@ class LoginView(views.MethodView):
         open('log3','w').write(json.dumps(data))
         email = Email.query.filter_by(address=data.get('email')).first()
         if email is None:
-            return json_response({'error':'email does not exist'}),404
+            return json_response({'error':'email does not exist'}),401
         else:
             if email.user.check_password(data.get('password')):
                 tkn = g.signer.dumps(email.user.to_json())
