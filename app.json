@@ -10,12 +10,11 @@
     "repository": "https://github.com/jstacoder/flask-angular-blog-example",
     "success_url": "/login",
     "scripts": {
-        "postdeploy": "python seed_db.py"
+        "postdeploy": ".install_app.sh"
     },
     "env": {
-        "SECRET_TOKEN": {
+        "SECRET_KEY": {
             "description": "A secret key for verifying the integrity of signed cookies.",
-            "generator": "secret",
             "value":"secret"
         },
         "ADMIN_EMAIL": {
@@ -25,6 +24,10 @@
         "ADMIN_PASSWORD":{
             "description":"Admins password",
             "value":"changeme"
+        },
+        "BLOG_NAME":{
+            "description":"the name of your blog",
+            "value":"A Blog"
         }
     },
     "addons": [
