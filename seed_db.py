@@ -1,10 +1,11 @@
 # coding: utf-8
+import os
 from sqlalchemy import create_engine
 from phlaskr.models import AppUser,UserProfile,Email,Post,Tag,Comment
 from phlaskr.app import application as api
 
 def start():
-    AppUser._engine = create_engine(api.config.get('DATABASE_URL'),echo=True)
+    AppUser._engine = create_engine(os.environ.get('DATABASE_URL'),echo=True)
     AppUser.metadata.bind = AppUser._engine
 
 def seed():
