@@ -26,9 +26,7 @@ def convert_uri_to_args(uri):
 
 cache = Redis(
     **convert_uri_to_args(
-                os.environ.get('HEROKU')\
-                and 'redis://rediscloud:hQUeCl0o4Az3pLS2@pub-redis-17658.us-east-1-3.4.ec2.garantiadata.com:17658'
-    ) or {}
+        os.environ.get('REDISCLOUD_URL')
 )
 
 def cache_response(res):
