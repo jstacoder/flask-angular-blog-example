@@ -107,10 +107,10 @@ function LoginCtrl(login,$cookies,sendLogin,redirect,loginError,$modal,msgModal)
     function submitForm(user,pw) {
 
         function success(res){
-            msgModal(
+          /*  msgModal(
                 'Success',
                 'Thanks for logging in',
-                false
+                false*/
             ).then(function(){});
         }
 
