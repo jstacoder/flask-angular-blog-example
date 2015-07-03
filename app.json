@@ -15,7 +15,7 @@
     "env": {
         "TESTING":{
             "description":"dont worry, this just keeps things working",
-            "generator":1
+            "generator":"1"
         },
         "SECRET_KEY": {
             "description": "A secret key for verifying the integrity of signed cookies.",
