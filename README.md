@@ -3,6 +3,10 @@
 a fun little blog with a Flask backend and AngularJs frontend.
 try out the [demo app](https://phlaskr.herokuapp.com) on heroku
 
+
+or just start the demo on your own heroku account with __One Click__!
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ####TravisCI Build Status
 ---
 [![Build Status](https://travis-ci.org/jstacoder/flask-angular-blog.svg?branch=master)](https://travis-ci.org/jstacoder/flask-angular-blog)
