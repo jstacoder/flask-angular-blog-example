@@ -10,7 +10,7 @@
     "repository": "https://github.com/jstacoder/flask-angular-blog-example",
     "success_url": "/login",
     "scripts": {
-        "postdeploy": ".install_app.sh"
+        "postdeploy": "/app/.install_app.sh"
     },
     "env": {
         "SECRET_KEY": {
