@@ -1,0 +1,17 @@
+<div class=button-group>
+    <a
+       class="btn btn-success"
+       href="/post/add"
+       ng-if="ctrl.isAuthenticated()&&!current.is_public"
+       >Add Post</a>
+    <a
+       class="btn btn-warning"
+       href="/posts"
+       ng-if="!ctrl.posts"
+       >List Posts</a>
+    <a
+       ng-if="ctrl.post&&ctrl.post.id&&ctrl.isAuthenticated()&&ctrl.post.author_id==current.id"
+       class="btn btn-danger"
+       ng-click="ctrl.deletePost(ctrl.post)"
+    >Delete Post</a>
+</div>

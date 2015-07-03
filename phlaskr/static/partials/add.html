@@ -1,0 +1,120 @@
+<style>
+    .data1 {
+        width:2%;
+    }
+    .well > .panel{
+        margin-bottom:0px;
+    }
+    .tag {
+        padding-top:10px;
+        padding-bottom:5px;
+        padding-left:2px;
+        padding-right:2px;
+        color:black;
+    }
+    .taglist {
+        -webkit-column-count: 2;
+        width: 215px;
+    }
+    .taglist > li {
+        padding:7px 1px 7px 0px;
+        display:inline-block;
+        font-size: 12px;
+        width:80px;
+        font-weight: bold;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius:15px;
+        border:1px solid grey;
+        margin:15px 0px 15px 0px;
+    }
+    .taglist > li:not(.label) {
+        color:black;
+    }
+    .ace_editor {
+        height:214px;
+        width:458px;
+        border:2px outset grey;
+    }
+</style>
+
+<div class="col-md-offset-1 col-md-5">
+    <form name="newPostForm" class=form>
+        <div class=form-group>
+            <label class=control-label>Title</label>
+            <input type=text ng-model=ctrl.newpost.title name=title class=form-control />
+        </div>
+        <div class=checkbox>
+            <label>
+                <input type=checkbox ng-model=ctrl.markdown /> Markdown mode
+            </label>
+        </div>
+        <div class=form-group>
+            <label class=control-label>Content</label>
+            <textarea ng-show="!ctrl.markdown" ng-model=ctrl.newpost.content name=content cols=18 rows=10 class=form-control>
+            </textarea>
+             <div ng-show="ctrl.markdown" ui-ace="
+                {
+                    useWrapMode : false,
+                    highlightActiveLine:true,
+                    theme:'twilight',
+                    mode: 'markdown',
+                    rendererOptions:{
+                        showLineNumbers:true,
+                        showPrintMargin:true,
+                        showGutter: true,
+                    }
+                }
+            " ng-model=ctrl.newpost.content></div>
+        </div>
+        <button class="btn btn-default" ng-click=ctrl.onClick()>Submit</button>
+    </form>
+</div>
+<div class="col-md-offset-1 col-md-4">
+    <div class="well well-sm">
+        <div class="panel panel-default">
+            <table class="table-hover table-condensed table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan=3>Related Posts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="post in ctrl.posts">
+                        <td class="data1">{{ $index + 1 }}</td>
+                        <td><a ng-href="/post/{{ post.id }}">{{ post.title }}</a></td>
+                        <td><input type="checkbox" class="checkbox" ng-model=post.related /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form class=form-horizontal name=addTagForm>
+        <div class=row>
+            <div class="col-md-4 form-group">
+                <button class="btn btn-default" ng-click="ctrl.newtag.name!=''&&ctrl.onTagClick()">add</button>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Add Tag</label>
+                <input class=form-control ng-model="ctrl.newtag.name" />
+                <input type="hidden" value="{{ ctrl.current.id }}" name="user_id" />
+                <div class=row>
+                    <div class="col-md-12 tags">
+                        <ul class="taglist list-unstyled">
+                            <li
+                                ng-repeat="tag in ctrl.tags"
+                                ng-bind=tag.name
+                                ng-class="{'label label-primary':ctrl.selected(tag)}"
+                                ng-click="ctrl.addToSelected(tag)"
+
+                            >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

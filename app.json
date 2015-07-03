@@ -1,0 +1,43 @@
+{
+    "name": "Flask Angular Blog Example",
+    "description": "This is a small blog example, with flask backend and angular frontend",
+    "keywords": [
+        "flask",
+        "python",
+        "angular"
+    ],
+    "website": "https://phlaskr.herokuapp.com",
+    "repository": "https://github.com/jstacoder/flask-angular-blog-example",
+    "success_url": "/login",
+    "scripts": {
+        "postdeploy": "python seed_db.py"
+    },
+    "env": {
+        "SECRET_TOKEN": {
+            "description": "A secret key for verifying the integrity of signed cookies.",
+            "generator": "secret",
+            "value":"secret"
+        },
+        "ADMIN_EMAIL": {
+            "description": "Admin's email account",
+            "value": "your-email"
+        },
+        "ADMIN_PASSWORD":{
+            "description":"Admins password",
+            "value":"changeme"
+        }
+    },
+    "addons": [
+        "rediscloud:30",
+        "heroku-postgresql:hobby-dev"
+    ],
+    "buildpacks": [
+        {
+            "url":"https://github.com/heroku/heroku-buildpack-nodejs",
+            "url":"https://github.com/ejholmes/heroku-buildpack-bower",
+            "url":"https://github.com/ryandotsmith/nginx-buildpack.git",
+            "url":"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/python.tgz"
+        }
+    ]
+}
+
