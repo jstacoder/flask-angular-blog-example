@@ -33,7 +33,7 @@ def start():
 
 def seed():
     if not cache.get(key):
-        cache.set(key)
+        cache.set(key,1)
 
         content = {
             '1':'''
