@@ -5,7 +5,7 @@ from phlaskr.models import AppUser,UserProfile,Email,Post,Tag,Comment
 from phlaskr.app import application as api
 from redis import Redis
 
-cache = Redis()
+cache = Redis(os.environ.get('REDISCLOUD_URL'))
 key = os.environ.get('DATABASE_URL')
 
 
