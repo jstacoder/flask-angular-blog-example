@@ -22,6 +22,7 @@ def convert_uri_to_args(uri):
 cache = Redis(
     **convert_uri_to_args(
         os.environ.get('REDISCLOUD_URL')
+    )
 )
 key = os.environ.get('DATABASE_URL')
 
