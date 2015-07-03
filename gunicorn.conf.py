@@ -74,7 +74,7 @@ backlog = 2048
 #
 
 workers = 1 if not_heroku else 4
-worker_class = 'async'
+#worker_class = 'async'
 worker_connections = 1500
 timeout = 15
 keepalive = 5
