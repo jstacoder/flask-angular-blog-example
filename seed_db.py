@@ -3,14 +3,21 @@ import os
 from sqlalchemy import create_engine
 from phlaskr.models import AppUser,UserProfile,Email,Post,Tag,Comment
 from phlaskr.app import application as api
+from redis import Redis
+
+cache = Redis()
+key = os.environ.get('DATABASE_URL')
+
 
 def start():
     AppUser._engine = create_engine(os.environ.get('DATABASE_URL'),echo=True)
     AppUser.metadata.bind = AppUser._engine
 
 def seed():
+    if not cache.get(key):
+        cache.set(key)
 
-    content = {
+        content = {
             '1':'''
     Wow Youll never Guess !!!
 
@@ -34,24 +41,24 @@ def seed():
 
     !!!!!!!
             '''
-    }
+        }
 
-    kyle = AppUser.get_new(username='admin',password='test')
-    email = Email(address='test@test.com',app_user_id=kyle.id,user_type='app')
-    email.save()
-    tag = Tag.get_new(name='tag')
-    post = Post.get_new(title='test post',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
-    post = Post.get_new(title='test post2',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
-    post = Post.get_new(title='test post3',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
-    post = Post.get_new(title='test post4',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
-    joel = AppUser.get_new(username='jstacoder',password='test')
-    email = Email(address='jstacoder@test.com',app_user_id=joel.id,user_type='app')
-    email.save()
-    tag = Tag.get_new(name='tags')
-    post = Post.get_new(title='First test post',content=content['1'],author_id=joel.id,tags=[tag.id])
-    post = Post.get_new(title='Just my thoughts',content=content['2'],author_id=joel.id,tags=[tag.id])
-    post = Post.get_new(title='Some crazy stuff',content=content['3'],author_id=joel.id,tags=[tag.id])
-    post = Post.get_new(title='You Wont Beleive This',content=content['4'],author_id=joel.id,tags=[tag.id])
+        kyle = AppUser.get_new(username='admin',password='test')
+        email = Email(address='test@test.com',app_user_id=kyle.id,user_type='app')
+        email.save()
+        tag = Tag.get_new(name='tag')
+        post = Post.get_new(title='test post',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
+        post = Post.get_new(title='test post2',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
+        post = Post.get_new(title='test post3',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
+        post = Post.get_new(title='test post4',content='fsfsfwsd',author_id=kyle.id,tags=[tag.id])
+        joel = AppUser.get_new(username='jstacoder',password='test')
+        email = Email(address='jstacoder@test.com',app_user_id=joel.id,user_type='app')
+        email.save()
+        tag = Tag.get_new(name='tags')
+        post = Post.get_new(title='First test post',content=content['1'],author_id=joel.id,tags=[tag.id])
+        post = Post.get_new(title='Just my thoughts',content=content['2'],author_id=joel.id,tags=[tag.id])
+        post = Post.get_new(title='Some crazy stuff',content=content['3'],author_id=joel.id,tags=[tag.id])
+        post = Post.get_new(title='You Wont Beleive This',content=content['4'],author_id=joel.id,tags=[tag.id])
 
 def reset():
     ctx = api.test_request_context()
