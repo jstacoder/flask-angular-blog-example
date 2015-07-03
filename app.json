@@ -13,13 +13,10 @@
         "postdeploy": "/app/.install_app.sh"
     },
     "env": {
-        "TESTING":{
-            "description":"dont worry, this just keeps things working",
-            "generator":"1"
-        },
+        "TESTING":"1",
         "SECRET_KEY": {
             "description": "A secret key for verifying the integrity of signed cookies.",
-            "value":"secret"
+            "generator":"secret"
         },
         "ADMIN_EMAIL": {
             "description": "Admin's email account",
