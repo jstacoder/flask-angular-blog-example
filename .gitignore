@@ -1,0 +1,9 @@
+phlaskr/static/vendor/*
+node_modules/*
+phlaskr/node_modules/*
+*.pyc
+*.db
+*egg*
+venv/*
+build/*
+phlaskr/build/*
