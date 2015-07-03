@@ -36,10 +36,7 @@
     ],
     "buildpacks": [
         {
-            "url":"https://github.com/heroku/heroku-buildpack-nodejs",
-            "url":"https://github.com/ejholmes/heroku-buildpack-bower",
-            "url":"https://github.com/ryandotsmith/nginx-buildpack.git",
-            "url":"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/python.tgz"
+            "url":"https://github.com/ddollar/heroku-buildpack-multi.git"
         }
     ]
 }
