@@ -111,7 +111,7 @@ function LoginCtrl(login,$cookies,sendLogin,redirect,loginError,$modal,msgModal)
                 'Success',
                 'Thanks for logging in',
                 false
-            ).result.then(function(){});
+            ).then(function(){});
         }
 
         sendLogin(user,pw,success,success)
