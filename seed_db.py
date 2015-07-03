@@ -4,7 +4,7 @@ from phlaskr.models import AppUser,UserProfile,Email,Post,Tag,Comment
 from phlaskr.app import application as api
 
 def start():
-    AppUser._engine = create_engine(api.config.get('DATABASE_URI'),echo=True)
+    AppUser._engine = create_engine(api.config.get('DATABASE_URL'),echo=True)
     AppUser.metadata.bind = AppUser._engine
 
 def seed():

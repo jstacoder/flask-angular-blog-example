@@ -24,3 +24,4 @@ psycopg2==2.6.1
 gunicorn
 redis
 htmlmin
+sqlalchemy-utils
