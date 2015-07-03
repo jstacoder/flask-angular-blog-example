@@ -3,6 +3,12 @@ import os
 
 not_heroku = os.environ.get('NOT_HEROKU')
 
+if not not_heroku:
+    import sys
+    sys.path.insert(0,os.path.realpath(os.path.dirname(__file__)))
+    from seed_db import reset
+    reset()
+
 
 #
 # Server socket

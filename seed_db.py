@@ -56,8 +56,7 @@ def reset():
     ctx = api.test_request_context()
     ctx.push()
     start()
-    AppUser.metadata.drop_all()
-    AppUser.metadata.create_all()
+    AppUser.metadata.create_all(checkfirst=True)
     seed()
     ctx.pop()
 
