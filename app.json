@@ -13,7 +13,10 @@
         "postdeploy": "/app/.install_app.sh"
     },
     "env": {
-        "TESTING":"1",
+        "TESTING":{
+            "description":"Please keep this set to 1, your app will not work if you change this value",
+            "value":"1"
+        },
         "SECRET_KEY": {
             "description": "A secret key for verifying the integrity of signed cookies.",
             "generator":"secret"
