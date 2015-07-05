@@ -7,3 +7,5 @@ phlaskr/node_modules/*
 venv/*
 build/*
 phlaskr/build/*
+.env
+

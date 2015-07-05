@@ -23,11 +23,14 @@ def convert_uri_to_args(uri):
         db=0,
         password=pw
     )
+redis_args =\
+    os.environ.get('REDISCLOUD_URL') and\
+    convert_uri_to_args(
+        os.environ.get('REDISCLOUD_URL')
+    ) or {}
 
 cache = Redis(
-    **convert_uri_to_args(
-        os.environ.get('REDISCLOUD_URL')
-    )
+    **redis_args
 )
 
 def cache_response(res):

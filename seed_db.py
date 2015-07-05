@@ -5,6 +5,8 @@ from phlaskr.models import AppUser,UserProfile,Email,Post,Tag,Comment
 from phlaskr.app import application as api
 from redis import Redis
 
+print '\n'.join(os.environ.keys())
+
 def convert_uri_to_args(uri):
     if uri is None:
         return False
@@ -19,10 +21,13 @@ def convert_uri_to_args(uri):
         password=pw
     )
 
-cache = Redis(
-    **convert_uri_to_args(
+redis_args =\
+    os.environ.get('REDISCLOUD_URL') and\
+    convert_uri_to_args(
         os.environ.get('REDISCLOUD_URL')
-    )
+    ) or {}
+cache = Redis(
+        **redis_args
 )
 key = os.environ.get('DATABASE_URL')
 

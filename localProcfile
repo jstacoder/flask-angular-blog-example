@@ -1,0 +1,2 @@
+
+local: python seed_db.py && gunicorn -c local_setup/gunicorn.local.conf.py phlaskr:application

@@ -1,10 +1,12 @@
 from sqlalchemy.ext.declarative import declarative_base,declared_attr
 from functools import partial
+import os
 from flask import current_app,json
 from inflection import pluralize, underscore
 from jinja2 import Environment
 from bcrypt import checkpw,gensalt,hashpw
 import sqlalchemy as sa
+from .cache import set_cache,get_cache,cache
 from dates import format_date
 
 
@@ -67,7 +69,10 @@ class BaseModel(get_base()):
     @classproperty
     def engine(cls):
         if cls._engine is None:
-            BaseModel._engine = _engine(current_app.config.get('DATABASE_URI'))
+            if os.environ.get('DATABASE_URL'):
+                BaseModel._engine = _engine(os.environ.get('DATABASE_URL'))
+            else:
+                BaseModel._engine = _engine(current_app.config.get('DATABASE_URI'))
             cls.metadata.bind = cls._engine
         return cls._engine
 
@@ -111,12 +116,22 @@ class BaseModel(get_base()):
         return self in self.session.deleted and\
             self.session.commit()
 
+    def to_json(self):
+        return dict(
+                **self.json_args
+        )
+
+    @property
+    def json_args(self):
+        pass
+
 class Page(BaseModel):
     
     name = sa.Column(sa.String(255),unique=True)
     post_id = sa.Column(sa.Integer,sa.ForeignKey('posts.id'))
     _content = sa.Column(sa.Text)
     post = sa.orm.relation('Post',uselist=False)
+    slug = sa.Column(sa.String(255))
     
     
     def __init__(self,*args,**kwargs):
@@ -126,13 +141,32 @@ class Page(BaseModel):
             self._content = kwargs.pop('content')
         super(Page,self).__init__(*args,**kwargs)        
     
+
+    def add_to_context(self,key,val):
+        key = '{0}{1}'.format(self.slug,key)
+        cache.set(key,val)
+
+
+    @property
+    def _context(self):
+        rtn = {}    
+        for key in cache.keys('{}*'.format(self.slug)):
+            rtn[self._fixkey(key)] = cache.get(key)
+        return rtn
+
+    def _fixkey(self,key):
+        return key.split(self.slug)[-1]
+
+
     @property
     def content(self):
-        if self._content is None:
-            return self.post.content
-        return self._content
-
-
+        env = current_app.jinja_env
+        if self._content is None and self.post:
+            rtn = self.post.content
+        rtn = self._content or ''
+        template = env.from_string(rtn)
+        return template.render(**self._context)
+        
 class Post(BaseModel):
     _env = None
     _context = {}
@@ -374,6 +408,18 @@ posts_tags =\
     sa.Table(
         'posts_tags',
         BaseModel.metadata,
-        sa.Column('post_id',sa.Integer,sa.ForeignKey('posts.id')),
-        sa.Column('tag_id',sa.Integer,sa.ForeignKey('tags.id'))
+            sa.Column(
+                'post_id',
+                sa.Integer,
+                sa.ForeignKey(
+                    'posts.id'
+                )
+            ),
+            sa.Column(
+                'tag_id',
+                sa.Integer,
+                sa.ForeignKey(
+                    'tags.id'
+                )
+            )
 )

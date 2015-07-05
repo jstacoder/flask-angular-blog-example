@@ -1,7 +1,7 @@
 import os
 from os import path as op
-from flask import Flask,render_template,views,g,request,send_file,g,current_app
-from ..models import AppUser
+from flask import Flask,render_template,views,g,request,send_file,g,current_app,abort,jsonify
+from ..models import AppUser,Page
 from ..app_factory import get_app
 from itsdangerous import TimedJSONWebSignatureSerializer as signer
 from ..cache import set_cache,get_cache,make_secret_key,get_key,cache_response,check_cache
@@ -39,7 +39,8 @@ class IndexView(views.MethodView):
                     )
                 )
         rtn.direct_passthrough = False
-        rtn.set_cookie('SITE_LOGO',os.environ.get('BLOG_NAME'))
+        if os.environ.get('SITE_LOGO'):
+            rtn.set_cookie('SITE_LOGO',os.environ.get('BLOG_NAME'))
         #rtn.data = minify(unicode(rtn.data))
         return rtn
         
@@ -54,6 +55,28 @@ def load_user(tkn):
     except:
         return redirect('/login')
     return AppUser.get_by_id(data['id'])
+
+class PageView(views.MethodView):
+    def get(self,slug=None):
+        page,pages = None,None
+        if slug is None:
+            pages = Page.get_all()
+        else:
+            page = Page.query.filter(Page.slug==slug).first()
+        if not page or not pages:
+            return abort(404)
+        return jsonify((slug and pages) or page._to_json())
+
+front.add_url_rule(
+        '/page/<slug>',
+        'pages',
+        view_func = PageView.as_view('pages')
+)
+front.add_url_rule(
+        '/page',
+        'page',
+        view_func = PageView.as_view('page')
+)
 
 @front.before_request
 def check_auth():
