@@ -35,7 +35,7 @@
         }
     },
     "addons": [
-        "rediscloud:30",
+        "heroku-redis:hobby-dev",
         "heroku-postgresql:hobby-dev"
     ],
     "buildpacks": [
