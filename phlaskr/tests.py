@@ -12,6 +12,7 @@ from app_factory import get_app
 from api import api
 from front import front
 from types import MethodType
+from seed_db import content, create_data
 
 if int(getattr(__import__('platform'),'python_version_tuple')()[1]) == 6:
     def assert_in(self,x,y):
@@ -27,7 +28,11 @@ os.environ['APP_CONFIG'] = 'test'
 class ApiTest(TestCase):
 
     def setUp(self):
-        reset()
+        #reset()
+        AppUser.metadata.bind = AppUser.engine
+        #AppUser.metadata.drop_all()
+        AppUser.metadata.create_all()
+        create_data(content)
         AppUser.engine.echo = False
 
     def tearDown(self):
@@ -35,7 +40,9 @@ class ApiTest(TestCase):
         AppUser.session.close()
 
     def create_app(self):
-        return get_app('app',cfg='test',blueprints=dict(api=api,front=front))
+        app = get_app('app',cfg='test',blueprints=dict(api=api,front=front))
+        app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
+        return app
 
     def _add_post(self):
         return self.client.post('/api/v1/post',data=dict(title='test title',content='klksdlkjsdklj',author_id=1,tags=[]))
@@ -113,7 +120,9 @@ class ApiTest(TestCase):
 
     def test_user_pw_fail(self):
         res = self.client.post('/api/v1/user/add',data=dict(email='xxx@yyy.com',username='hank',password='xxxx'))
-        user = AppUser.get_by_id(2)
+        print json.loads(res.get_data()).get('id')
+        id = json.loads(res.get_data()).get('id')
+        user = AppUser.get_by_id(id)
         self.assertFalse(user.check_password('xsssxxx'))
 
     def test_get_post(self):
@@ -123,6 +132,7 @@ class ApiTest(TestCase):
 
     def test_delete_post(self):
         post_count = len(Post.get_all())
+        print post_count
         res = self.client.post('/api/v1/post/delete/1')
         self.assertEqual(len(Post.get_all()),post_count-1)
 

@@ -16,6 +16,8 @@ class ProductionConfig(BaseConfig):
 
 class TestConfig(BaseConfig):
     DATABASE_URI = 'sqlite:///testing.db'
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
+    SECRET_KEY = 'TESTING'
 
 class DevConfig(BaseConfig):
     pass

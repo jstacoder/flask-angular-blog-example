@@ -231,7 +231,7 @@ class Post(BaseModel):
             tags=[x.name for x in self.tags.all()],
             comments=[x.to_json() for x in self.comments.all()],
             author_id=self.author_id,
-            author=self.author.username
+            author=self.author.username if self.author is not None else ''
         )
 
 
@@ -246,8 +246,10 @@ class Email(BaseModel):
 
     __table_args__ = (
         (
-        sa.UniqueConstraint('address','app_user_id'),
-        sa.UniqueConstraint('address','public_user_id'),)
+            sa.UniqueConstraint('address','app_user_id'),
+            sa.UniqueConstraint('address','public_user_id'),
+            sa.ForeignKeyConstraint(['public_user_id'],['public_users.id'],use_alter=True,name='pub_usr_fk'),
+        )
 )
 
     address = sa.Column(sa.String(255))
